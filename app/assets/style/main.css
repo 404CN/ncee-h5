@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@nuxt/ui-pro";
+
+.container {
+  /* w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3 h-full */
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 32px;
+}

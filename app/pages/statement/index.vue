@@ -1,6 +1,6 @@
 <template>
-  <div class="error">
-    Error
+  <div>
+    Statement
   </div>
 </template>
 
@@ -8,4 +8,4 @@
 
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

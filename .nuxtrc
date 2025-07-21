@@ -1,0 +1,9 @@
+# 禁用 SSR
+# ssr=false
+
+# 配置 @nuxt/devtools
+# devtools.enabled=true
+
+# 添加 Nuxt 模块
+# modules[]=@nuxt/image
+# modules[]=nuxt-security
