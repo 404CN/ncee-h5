@@ -9,7 +9,7 @@
     <UNavigationMenu :items="items" variant="link" />
 
     <template #right>
-      <UButton icon="i-simple-icons-github" color="neutral" variant="ghost" to="https://github.com/nuxt/nuxt"
+      <UButton icon="i-simple-icons-github" color="neutral" variant="ghost" to="https://github.com/404CN/ncee-h5"
         target="_blank" aria-label="GitHub" />
     </template>
   </UFooter>
