@@ -61,13 +61,13 @@ const assetUrl = config.public.assetBase;
 const searchTerm = ref('');
 
 const regions: any = ref([]);
-const selectedRegion = ref('0');
+const selectedRegion = ref('');
 
 const fetchRegions = async () => {
   try {
     const res: any = await regionList()
     regions.value = res.data || []
-    regions.value.unshift({ code: '0', short: '全部' })
+    regions.value.unshift({ code: '', short: '全部' })
   } catch (err) {
     console.error('请求失败:', err)
   }
