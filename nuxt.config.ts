@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://api.example.com'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      assetBase: process.env.NUXT_PUBLIC_AEEET_BASE,
     }
   },
   site: {
