@@ -16,9 +16,16 @@ export default defineNuxtConfig({
       'https://www.ncee.cc/sitemap.xml',
     ]
   },
+  image: {
+    domains: [process.env.NUXT_PUBLIC_AEEET_DOMAIN!],
+    provider: 'ipx',
+    // ipx: {
+    //   baseURL: ''
+    // }
+  },
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui-pro', '@nuxtjs/sitemap'],
+  modules: ['@nuxt/ui-pro', '@nuxtjs/sitemap', '@nuxt/image'],
   css: [
     "~/assets/style/main.css",
   ],

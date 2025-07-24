@@ -18,27 +18,67 @@
         </div>
       </UPageCard>
 
-      <!-- 数据列表 -->
-      <UPageCard class="p0">
-        <!-- 过滤条件 -->
-        <UPageList divide v-show="colleges.length > 0">
+      <!-- 院校列表 - 移动端 -->
+      <UPageCard class="p0 md:hidden">
+        <UPageList divide v-if="colleges.length > 0">
           <UPageCard v-for="(college, index) in colleges" :key="college._id || index" variant="ghost">
             <template #body>
-              <UUser :name="college.name" :description="`${college.nature} | ${college.level} | ${college.location}`"
+              <UUser :to="'/college/' + college.code" :name="college.name"
+                :description="`${college.nature} | ${college.level} | ${college.location}`"
                 :avatar="{ src: `${assetUrl}${college.logo}`, alt: college.name }" size="xl" />
+            </template>
+          </UPageCard>
+        </UPageList>
 
-              <!-- <div class="flex items-center gap-4">
-              <USkeleton class="h-12 w-12 rounded-full" />
-
-              <div class="grid gap-2">
-                <USkeleton class="h-4 w-[250px]" />
-                <USkeleton class="h-4 w-[200px]" />
+        <UPageList divide v-else>
+          <UPageCard v-for="i in limit" :key="i" variant="ghost">
+            <template #body>
+              <div class="skeleton flex items-center gap-4">
+                <USkeleton class="h-12 w-12 rounded-full" />
+                <div class="grid gap-2">
+                  <USkeleton class="h-4 w-[250px]" />
+                  <USkeleton class="h-4 w-[200px]" />
+                </div>
               </div>
-            </div> -->
             </template>
           </UPageCard>
         </UPageList>
       </UPageCard>
+      <!-- 院校列表 - 移动端 -->
+
+      <!-- 院校列表 - PC端 -->
+      <UPageCard class="p0 hidden md:block">
+        <UPageList divide v-show="colleges.length > 0">
+          <UPageCard v-for="(college, index) in colleges" :key="college._id || index" variant="ghost">
+            <template #body>
+              <UUser :to="'/college/' + college.code" :name="college.name"
+                :description="`${college.nature} | ${college.level} | ${college.location}`"
+                :avatar="{ src: `${assetUrl}${college.logo}`, alt: college.name }" size="xl" />
+            </template>
+
+            <!-- <template #header>
+              <p>header</p>
+            </template>
+
+            <template #leading>
+              <p>leading</p>
+            </template>
+
+            <template #title>
+              <p>title</p>
+            </template>
+
+            <template #description>
+              <p>description</p>
+            </template>
+
+            <template #footer>
+              <p>footer</p>
+            </template> -->
+          </UPageCard>
+        </UPageList>
+      </UPageCard>
+      <!-- 院校列表 - PC端 -->
 
       <!-- 分页 -->
       <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-2">

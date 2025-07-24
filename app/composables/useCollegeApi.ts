@@ -22,9 +22,10 @@ export const useCollegeApi = () => {
       }),
 
     // 获取单个院校
-    get: (id: number | string) =>
-      $fetch(`${baseUrl}/${id}`, {
+    get: (code: number | string) =>
+      $fetch(baseUrl, {
         method: 'GET',
+        query: { code },
         headers: headers.value
       }),
 
