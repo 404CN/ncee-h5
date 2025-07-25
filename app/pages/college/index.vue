@@ -24,7 +24,7 @@
           <UPageCard v-for="(college, index) in colleges" :key="college._id || index" variant="ghost">
             <template #body>
               <UUser :to="'/college/' + college.code" :name="college.name"
-                :description="`${college.nature} | ${college.level} | ${college.location}`"
+                :description="`${college.nature} | ${college.level} | ${college.region}`"
                 :avatar="{ src: `${assetUrl}${college.logo}`, alt: college.name }" size="xl" />
             </template>
           </UPageCard>
@@ -52,7 +52,7 @@
           <UPageCard v-for="(college, index) in colleges" :key="college._id || index" variant="ghost">
             <template #body>
               <UUser :to="'/college/' + college.code" :name="college.name"
-                :description="`${college.nature} | ${college.level} | ${college.location}`"
+                :description="`${college.nature} | ${college.level} | ${college.region.includes(',') ? college.region.split(',')[1] : college.region}`"
                 :avatar="{ src: `${assetUrl}${college.logo}`, alt: college.name }" size="xl" />
             </template>
 
@@ -125,7 +125,7 @@ interface College {
   logo: string
   name: string
   level: string
-  location: string
+  region: string
   nature: string
 }
 
