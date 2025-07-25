@@ -1,8 +1,7 @@
-// composables/college.ts
-export const useCollegeApi = () => {
+export const useCollegeNatureApi = () => {
   const config = useRuntimeConfig()
   const token = useCookie('token')
-  const baseUrl = `${config.public.apiBase}/college`
+  const baseUrl = `${config.public.apiBase}/college-nature`
 
   const headers = computed(() => {
     const result: Record<string, string> = {}
@@ -14,14 +13,14 @@ export const useCollegeApi = () => {
 
   return {
     // 获取分页列表
-    list: (page = 1, limit = 10, filters = {}) =>
+    list: (page = 1, limit = 100, extraParams = {}) =>
       $fetch(baseUrl, {
         method: 'GET',
         headers: headers.value,
-        params: { page, limit, ...filters }
+        params: { page, limit, ...extraParams }
       }),
 
-    // 获取单个院校
+    // 获取单个
     get: (code: number | string) =>
       $fetch(baseUrl, {
         method: 'GET',
@@ -29,7 +28,7 @@ export const useCollegeApi = () => {
         headers: headers.value
       }),
 
-    // 创建院校
+    // 创建
     create: (data: any) =>
       $fetch(baseUrl, {
         method: 'POST',
@@ -37,7 +36,7 @@ export const useCollegeApi = () => {
         headers: headers.value
       }),
 
-    // 更新院校
+    // 更新
     update: (id: number | string, data: any) =>
       $fetch(`${baseUrl}/${id}`, {
         method: 'PUT',
@@ -45,7 +44,7 @@ export const useCollegeApi = () => {
         headers: headers.value
       }),
 
-    // 删除院校
+    // 删除
     remove: (id: number | string) =>
       $fetch(`${baseUrl}/${id}`, {
         method: 'DELETE',

@@ -3,7 +3,7 @@
     <div class="container">
       <!-- 过滤条件 -->
       <UPageCard class="p-0 mb-4">
-        <CollectFilter></CollectFilter>
+        <CollectFilter @change="onFilterChange"></CollectFilter>
       </UPageCard>
 
       <!-- 院校列表 - 移动端 -->
@@ -122,14 +122,31 @@ const page = ref(1)
 const limit = ref(10)
 const total = ref(0)
 
+// 筛选条件响应式对象
+const filters = ref<{
+  region?: string
+  collegeLevel?: string
+  collegeDept?: string
+  collegeNatures?: string
+  collegeTags?: string
+}>({})
+
+// 获取列表数据，带 filters 参数
 const fetchColleges = async () => {
   try {
-    const res: any = await collegeList(page.value, limit.value)
+    const res: any = await collegeList(page.value, limit.value, filters.value)
     colleges.value = res.data || []
     total.value = res.total || 0
   } catch (err) {
     console.error('请求失败:', err)
   }
+}
+
+// CollectFilter 的 change 回调中保存 filters，重置页码并重新加载
+const onFilterChange = (newFilters: typeof filters.value) => {
+  filters.value = newFilters
+  page.value = 1
+  fetchColleges()
 }
 
 watch(page, fetchColleges)
