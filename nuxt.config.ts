@@ -16,6 +16,10 @@ export default defineNuxtConfig({
       'https://www.ncee.cc/sitemap.xml',
     ]
   },
+  // components: [
+  //   { path: '~/components', global: true },
+  //   { path: '~/pages/**/components', prefix: 'Page', global: false }
+  // ],
   // image: {
   //   domains: [process.env.NUXT_PUBLIC_AEEET_DOMAIN!],
   //   provider: 'ipx',

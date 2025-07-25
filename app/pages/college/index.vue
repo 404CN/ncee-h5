@@ -3,19 +3,7 @@
     <div class="container">
       <!-- 过滤条件 -->
       <UPageCard class="p-0 mb-4">
-        <UDashboardSearchButton class="w-48" />
-        <!-- <UDashboardSearch v-model:search-term="searchTerm" shortcut="meta_k" :groups="[]"
-          :fuse="{ resultLimit: 42 }" /> -->
-
-        <div class="filter">
-          <div class="filter-item">
-            <div class="label">院校所在地</div>
-            <ul class="list">
-              <li class="list-item" :class="selectedRegion === item.code ? 'active' : ''"
-                v-for="(item, index) in regions" :key="index" @click="onRegionChange(item.code)">{{ item.short }}</li>
-            </ul>
-          </div>
-        </div>
+        <CollectFilter></CollectFilter>
       </UPageCard>
 
       <!-- 院校列表 - 移动端 -->
@@ -91,32 +79,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue';
+import CollectFilter from './components/filter.vue'
+
 const { list: collegeList } = useCollegeApi();
-const { list: regionList } = useRegionApi();
 
 const config = useRuntimeConfig();
 const assetUrl = config.public.assetBase;
-
-const searchTerm = ref('');
-
-const regions: any = ref([]);
-const selectedRegion = ref('');
-
-const fetchRegions = async () => {
-  try {
-    const res: any = await regionList()
-    regions.value = res.data || []
-    regions.value.unshift({ code: '', short: '全部' })
-  } catch (err) {
-    console.error('请求失败:', err)
-  }
-}
-
-const onRegionChange = (code: string) => {
-  selectedRegion.value = code;
-  fetchColleges();
-}
 
 interface College {
   _id: string
@@ -167,7 +136,6 @@ watch(page, fetchColleges)
 watch(limit, fetchColleges)
 
 onMounted(() => {
-  fetchRegions()
   fetchColleges()
 })
 </script>
@@ -180,38 +148,6 @@ onMounted(() => {
 
   .container {
     padding: 1rem;
-
-    .filter {
-      font-size: 14px;
-
-      .filter-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-
-        .label {
-          width: 8rem;
-          font-weight: bold;
-          margin-right: 0.5rem;
-        }
-
-        .list {
-          display: flex;
-          flex-wrap: wrap;
-
-          .list-item {
-            margin-right: 1rem;
-            cursor: pointer;
-            transition: color 0.2s;
-
-            &:hover,
-            &.active {
-              color: var(--color-primary);
-            }
-          }
-        }
-      }
-    }
   }
 }
 </style>
