@@ -52,7 +52,7 @@
     <div class="filter-item">
       <div class="label">院校特性</div>
       <div class="flex row gap-2" v-if="loading">
-        <USkeleton v-for="i in 5" class="h-4 w-[50px]" />
+        <USkeleton v-for="i in 7" class="h-4 w-[50px]" />
       </div>
       <ul class="list" v-else>
         <li class="list-item" :class="filters.collegeTag === item.code ? 'active' : ''"
