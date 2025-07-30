@@ -1,4 +1,3 @@
-// composables/region.ts
 export const useRegionApi = () => {
   const config = useRuntimeConfig()
   const token = useCookie('token')

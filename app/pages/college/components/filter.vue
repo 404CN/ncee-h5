@@ -19,8 +19,8 @@
         <USkeleton v-for="i in 3" class="h-4 w-[50px]" />
       </div>
       <ul class="list" v-else>
-        <li class="list-item" :class="filters.collegeLevel === item.code ? 'active' : ''"
-          v-for="(item, index) in collegeLevels" :key="index" @click="onCollegeLevelChange(item.code)">{{ item.name }}
+        <li class="list-item" :class="filters.collegeLevel === item.value ? 'active' : ''"
+          v-for="(item, index) in collegeLevels" :key="index" @click="onCollegeLevelChange(item.value)">{{ item.label }}
         </li>
       </ul>
     </div>
@@ -31,8 +31,9 @@
         <USkeleton v-for="i in 3" class="h-4 w-[50px]" />
       </div>
       <ul class="list" v-else>
-        <li class="list-item" :class="filters.collegeNature === item.code ? 'active' : ''"
-          v-for="(item, index) in collegeNatures" :key="index" @click="onCollegeNatureChange(item.code)">{{ item.name }}
+        <li class="list-item" :class="filters.collegeNature === item.value ? 'active' : ''"
+          v-for="(item, index) in collegeNatures" :key="index" @click="onCollegeNatureChange(item.value)">{{ item.label
+          }}
         </li>
       </ul>
     </div>
@@ -43,8 +44,8 @@
         <USkeleton v-for="i in 5" class="h-4 w-[50px]" />
       </div>
       <ul class="list" v-else>
-        <li class="list-item" :class="filters.collegeDept === item.code ? 'active' : ''"
-          v-for="(item, index) in collegeDepts" :key="index" @click="onCollegeDeptChange(item.code)">{{ item.name }}
+        <li class="list-item" :class="filters.collegeDept === item.value ? 'active' : ''"
+          v-for="(item, index) in collegeDepts" :key="index" @click="onCollegeDeptChange(item.value)">{{ item.label }}
         </li>
       </ul>
     </div>
@@ -55,8 +56,8 @@
         <USkeleton v-for="i in 7" class="h-4 w-[50px]" />
       </div>
       <ul class="list" v-else>
-        <li class="list-item" :class="filters.collegeTag === item.code ? 'active' : ''"
-          v-for="(item, index) in collegeTags" :key="index" @click="onCollegeTagChange(item.code)">{{ item.name }}
+        <li class="list-item" :class="filters.collegeTag === item.value ? 'active' : ''"
+          v-for="(item, index) in collegeTags" :key="index" @click="onCollegeTagChange(item.value)">{{ item.label }}
         </li>
       </ul>
     </div>
@@ -65,10 +66,7 @@
 
 <script lang="ts" setup>
 const { list: regionList } = useRegionApi();
-const { list: collectLevelList } = useCollegeLevelApi();
-const { list: collectDeptList } = useCollegeDeptApi();
-const { list: collectNatureList } = useCollegeNatureApi();
-const { list: collectTagList } = useCollegeTagApi();
+const { getDataByType }: any = useDictApi();
 
 // 关键词
 const searchTerm = ref('');
@@ -81,28 +79,23 @@ interface IFilterData {
   collegeTag?: string
 }
 
+interface IDictDataItem {
+  _id: string
+  alias: string
+  createAt: string
+  default: boolean
+  label: string
+  remark: string
+  sort: number
+  status: number
+  type: string
+  updateAt: string
+  value: string
+}
+
 interface IRegionItem {
   code: string
   short: string
-}
-interface ICollegeLevelItem {
-  code: string
-  name: string
-}
-interface ICollegeDeptItem {
-  code: string
-  name: string
-}
-interface ICollegeNatureItem {
-  code: string
-  name: string
-  en: string
-}
-interface ICollegeTagItem {
-  code: string
-  name: string
-  attr: string
-  desc: string
 }
 
 // 筛选条件
@@ -159,10 +152,10 @@ const fetchAllOptions = async () => {
   try {
     const results = await Promise.allSettled([
       regionList() as Promise<{ data: IRegionItem[] }>,
-      collectLevelList() as Promise<{ data: ICollegeLevelItem[] }>,
-      collectDeptList() as Promise<{ data: ICollegeDeptItem[] }>,
-      collectNatureList() as Promise<{ data: ICollegeNatureItem[] }>,
-      collectTagList() as Promise<{ data: ICollegeTagItem[] }>
+      getDataByType('college_level') as Promise<{ data: IDictDataItem[] }>,
+      getDataByType('college_affiliation') as Promise<{ data: IDictDataItem[] }>,
+      getDataByType('college_nature') as Promise<{ data: IDictDataItem[] }>,
+      getDataByType('college_tag') as Promise<{ data: IDictDataItem[] }>,
     ])
 
     const [regionRes, levelRes, deptRes, natureRes, tagRes] = results
@@ -177,34 +170,34 @@ const fetchAllOptions = async () => {
 
     // 办学层次
     if (levelRes.status === 'fulfilled') {
-      collegeLevels.value = [{ code: '', name: '全部' }, ...(levelRes.value.data || [])]
+      collegeLevels.value = [{ value: '', label: '全部' }, ...(levelRes.value.data || [])]
     } else {
       console.warn('获取办学层次失败:', levelRes.reason)
-      collegeLevels.value = [{ code: '', name: '全部' }]
+      collegeLevels.value = [{ value: '', label: '全部' }]
     }
 
     // 主管部门
     if (deptRes.status === 'fulfilled') {
-      collegeDepts.value = [{ code: '', name: '全部' }, ...(deptRes.value.data || [])]
+      collegeDepts.value = [{ value: '', label: '全部' }, ...(deptRes.value.data || [])]
     } else {
       console.warn('获取主管部门失败:', deptRes.reason)
-      collegeDepts.value = [{ code: '', name: '全部' }]
+      collegeDepts.value = [{ value: '', label: '全部' }]
     }
 
     // 院校特性
     if (natureRes.status === 'fulfilled') {
-      collegeNatures.value = [{ code: '', name: '全部', en: '' }, ...(natureRes.value.data || [])]
+      collegeNatures.value = [{ value: '', label: '全部', en: '' }, ...(natureRes.value.data || [])]
     } else {
       console.warn('获取院校特性失败:', natureRes.reason)
-      collegeNatures.value = [{ code: '', name: '全部', en: '' }]
+      collegeNatures.value = [{ value: '', label: '全部', en: '' }]
     }
 
     // 院校标签
     if (tagRes.status === 'fulfilled') {
-      collegeTags.value = [{ code: '', name: '全部', attr: '', desc: '' }, ...(tagRes.value.data || [])]
+      collegeTags.value = [{ value: '', label: '全部', attr: '', desc: '' }, ...(tagRes.value.data || [])]
     } else {
       console.warn('获取院校标签失败:', tagRes.reason)
-      collegeTags.value = [{ code: '', name: '全部', attr: '', desc: '' }]
+      collegeTags.value = [{ value: '', label: '全部', attr: '', desc: '' }]
     }
   } catch (err) {
     // 一般不会触发，只有 Promise.allSettled 本身失败时才触发（如 JS 语法错误）

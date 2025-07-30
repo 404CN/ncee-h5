@@ -1,4 +1,3 @@
-// composables/college.ts
 export const useCollegeApi = () => {
   const config = useRuntimeConfig()
   const token = useCookie('token')
