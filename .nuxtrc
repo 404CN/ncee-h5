@@ -5,5 +5,4 @@
 # devtools.enabled=true
 
 # 添加 Nuxt 模块
-# modules[]=@nuxt/image
 # modules[]=nuxt-security
