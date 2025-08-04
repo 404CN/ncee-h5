@@ -2,9 +2,15 @@
   <div class="major w-full">
     <div class="container">
       <UTabs variant="pill" color="neutral" :content="true" :items="items" class="w-full">
-        <template #undergraduate="{ item }">本科</template>
-        <template #diploma="{ item }">专科</template>
-        <template #graduate="{ item }">研究生</template>
+        <template #bachelor="{ item }">
+          <MajorBachelor />
+        </template>
+        <template #associate="{ item }">
+          <MajorAssociate />
+        </template>
+        <template #master="{ item }">
+          <MajorMaster />
+        </template>
       </UTabs>
     </div>
   </div>
@@ -12,19 +18,22 @@
 
 <script lang="ts" setup>
 import type { TabsItem } from '@nuxt/ui'
+import MajorBachelor from './components/bachelor.vue'
+import MajorAssociate from './components/associate.vue'
+import MajorMaster from './components/master.vue'
 
-const items = ref<TabsItem[]>([
+const items = ([
   {
     label: '本科',
-    slot: 'undergraduate' as const
+    slot: 'bachelor' as const
   },
   {
     label: '专科',
-    slot: 'diploma' as const
+    slot: 'associate' as const
   },
   {
     label: '研究生',
-    slot: 'graduate' as const
+    slot: 'master' as const
   }
 ] satisfies TabsItem[])
 </script>
