@@ -2,7 +2,7 @@
   <div class="list" v-if="props.majorData">
     <MajorSelector :data="props.majorData.data" />
   </div>
-  <div v-else>暂无数据</div>
+  <div class="empty" v-else>暂无数据</div>
 </template>
 
 <script lang="ts" setup>
@@ -40,4 +40,10 @@ watch(
 );
 </script>
 
-<style></style>
+<style scoped>
+.empty {
+  font-size: 14px;
+  text-align: center;
+  margin: 5rem 0;
+}
+</style>
