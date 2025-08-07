@@ -30,8 +30,10 @@
     <!-- 第 3 列 -->
     <div v-if="levelCount === 3" class="w-[60%] flex flex-col min-h-0">
       <ul class="flex-1 list-none m-0 p-0 overflow-y-auto">
-        <li v-for="item in level3List" :key="item.code"
-          class="px-4 py-2 cursor-pointer transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
+        <li v-for="item in level3List" :key="item.code" :class="[
+          'px-4 py-2 cursor-pointer transition-colors hover:bg-slate-100 dark:hover:bg-slate-700',
+          activeLevel3?.code === item.code && 'bg-slate-100 dark:bg-slate-700'
+        ]" @click="activeLevel3 = item">
           {{ `${item.name} (${item.code})` }}
         </li>
       </ul>
@@ -68,6 +70,7 @@ const props = defineProps<{
 
 const activeLevel1 = ref<MajorNode | null>(null);
 const activeLevel2 = ref<MajorNode | null>(null);
+const activeLevel3 = ref<MajorNode | null>(null);
 
 const level2List = computed(() => activeLevel1.value?.children || []);
 const level3List = computed(() => activeLevel2.value?.children || []);
@@ -83,10 +86,12 @@ const levelCount = computed(() => {
 function selectLevel1(item: MajorNode) {
   activeLevel1.value = item;
   activeLevel2.value = null;
+  activeLevel3.value = null;
 }
 
 function selectLevel2(item: MajorNode) {
   activeLevel2.value = item;
+  activeLevel3.value = null;
 }
 
 // 👉 初始自动选择第一个一级项及其子项
